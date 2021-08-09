@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="app">
-    <FramesAnimation :imageList="imageList"></FramesAnimation>
+    <FramesAnimation :imageList="imageList"> </FramesAnimation>
   </div>
 </template>
 

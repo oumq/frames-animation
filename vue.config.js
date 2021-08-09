@@ -13,6 +13,7 @@ module.exports = {
       libraryExport: 'default'
     }
   },
+  css: { extract: false },
   devServer: {
     port: 9527
   }

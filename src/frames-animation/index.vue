@@ -1,8 +1,7 @@
 <template>
   <div class="frames-animation-wrap">
-    <canvas id="canvas"></canvas>
-    <slot name="loading">
-      <div class="loading" v-if="loading">
+    <slot v-if="loading" name="loading">
+      <div class="loading">
         <span></span>
         <span></span>
         <span></span>
@@ -10,6 +9,10 @@
         <span></span>
       </div>
     </slot>
+    <slot v-else-if="error" name="error">
+      <div class="error"> 加载失败 </div>
+    </slot>
+    <canvas v-else id="canvas"></canvas>
   </div>
 </template>
 
@@ -45,7 +48,8 @@ export default {
       ctx: null,
       ratio: 1,
       size: [0, 0],
-      loading: false,
+      loading: true,
+      error: false,
       renderImg: [],
       frameIndex: 0,
       hoverMouse: false,
@@ -55,6 +59,9 @@ export default {
   mounted() {
     if (this.imageList.length > 0) {
       this.loadAllImg()
+    } else {
+      this.loading = false
+      this.error = true
     }
   },
   methods: {
@@ -113,12 +120,14 @@ export default {
       try {
         const res = await Promise.all(arr)
         this.renderImg = res
-        this.initCanvas()
-      } catch (err) {
-        console.error(err)
-        this.renderImg = []
-      } finally {
         this.loading = false
+        this.$nextTick(() => {
+          this.initCanvas()
+        })
+      } catch (err) {
+        this.loading = false
+        this.error = true
+        this.renderImg = []
       }
     },
 
@@ -212,7 +221,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .frames-animation-wrap {
   position: relative;
   width: 100%;
@@ -222,10 +231,18 @@ export default {
     width: 100%;
     height: 100%;
   }
+  .error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: black;
+  }
   .loading {
     position: absolute;
-    width: 70px;
-    height: 30px;
+    width: 20%;
+    height: 8%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -234,9 +251,8 @@ export default {
     align-items: center;
     & > span {
       display: inline-block;
-      width: 8px;
+      width: 8%;
       height: 100%;
-      border-radius: 4px;
       background: #e7ecf1;
       animation: load 1s ease infinite;
       &:nth-child(2) {
@@ -256,12 +272,12 @@ export default {
   @keyframes load {
     0%,
     100% {
-      height: 30px;
+      height: 100%;
       background: #e7ecf1;
     }
     50% {
-      height: 60px;
-      margin: -10px 0;
+      height: 150%;
+      margin: -30% 0;
       background: #ff7752;
     }
   }

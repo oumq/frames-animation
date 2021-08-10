@@ -1,29 +1,45 @@
-# frames-animation
+<p algin="center">
+  <h1>frames-animation</h1>
+</p>
 
-## Project setup
-```
-yarn install
-```
+## Introduction
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+> vue component
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Install
 
-### Run your unit tests
 ```
-yarn test:unit
+npm install frames-animation -S
+
+or
+
+yarn add frames-animation -S
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+## Quick Start
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
+<div id="app" class="fa-wrap">
+  <FramesAnimation :imageList="imgList">
+    <!-- slot -->
+    <template #loading>loading</template>
+    <template #error>error</template>
+  </FramesAnimation>
+</div>
+
+import FramesAnimation from 'frames-animation'
+
+export default {
+  data() {
+    return {
+      imgList: [
+        'http://www.aaa.com/image1.png',
+        'http://www.aaa.com/image2.png',
+        'http://www.aaa.com/image3.png',
+        'http://www.aaa.com/image4.png',
+      ]
+    }
+  }
+}
+
+```

@@ -12,7 +12,7 @@
     <slot v-else-if="error" name="error">
       <div class="error"> 加载失败 </div>
     </slot>
-    <canvas v-else id="canvas"></canvas>
+    <canvas v-else ref="canvas"></canvas>
   </div>
 </template>
 
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     initCanvas() {
-      this.canvas = document.getElementById('canvas')
+      this.canvas = this.$refs.canvas
       this.ctx = this.canvas.getContext('2d')
       this.ratio = this.getPixelRatio(this.ctx)
       this.getImgSize(this.renderImg[0])
